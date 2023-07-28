@@ -3,26 +3,13 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const axios = require("axios");
+const router = require("./routes/index");
 
 const PORT = process.env.PORT || 8000;
+
+app.set("view engine", "ejs");
 app.use(express.json());
-
-const rizzMe = async () => {
-  const options = {
-    method: "GET",
-    url: process.env.API_URL,
-  };
-
-  try {
-    const response = await axios.request(options);
-    console.log(response.data.pickup);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-rizzMe()
+app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);

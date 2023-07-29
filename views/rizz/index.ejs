@@ -3,14 +3,22 @@
     <head>
         <title>rizzMe</title>
         <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="h-full">
-        <div class="h-full flex items-center justify-center bg-gray-100">
-            <div class="text-center">
-                <div><%= rizz %></div>
+    <body class="h-full bg-slate-900">
+        <div class="min-h-screen flex flex-col items-center justify-center px-4 sm:px-8">
+            <div class="bg-slate-800 rounded-lg p-4 mb-4 max-w-md w-full sm:w-auto">
+                <p class="text-gray-50"><%= rizz %></p>
             </div>
+
+            <button class="rounded-lg bg-sky-300 py-2 px-4 text-sm font-semibold text-slate-900 hover:bg-sky-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/50 active:bg-sky-500">
+                Generate new
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 inline-block">
+                    <path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z" />
+                </svg>
+            </button>
         </div>
     </body>
 </html>

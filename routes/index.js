@@ -3,6 +3,6 @@ const router = express.Router();
 
 const RizzRouter = require("./rizz.router.js");
 
-router.use("/rizz", RizzRouter);
+router.use("/", RizzRouter);
 
 module.exports = router;

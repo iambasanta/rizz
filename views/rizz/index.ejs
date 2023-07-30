@@ -1,41 +1,150 @@
 <!DOCTYPE html>
 <html class="h-full bg-white" lang="en">
-    <head>
-        <title>rizzMe</title>
-        <meta charset="UTF-8">
-        <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script defer src="../scripts/script.js"></script>
-    </head>
-    <body class="h-full bg-slate-900">
-        <div class="min-h-screen flex flex-col items-center justify-center px-4 sm:px-8">
-            <div class="bg-slate-800 rounded-lg p-4 mb-4 max-w-md w-full sm:w-auto">
-                <p class="text-gray-50" id="rizzContent"><%= rizz %></p>
-            </div>
-
-            <div class="flex items-center">
-                <button class="flex flex-shrink-0 rounded-lg bg-sky-300 py-3 px-4 text-sm font-semibold text-slate-900 hover:bg-sky-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/50 active:bg-sky-500 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2" id="generateButton">
-                    Generate new
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 inline-block">
-                        <path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z" />
-                    </svg>
-                </button>
-
-                <div class="relative inline-block">
-                    <button class="flex flex-shrink-0 rounded-lg bg-slate-800 py-3 px-4 text-sm font-semibold text-white hover:bg-slate-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 active:text-slate-400 w-full sm:w-auto flex items-center" id="copyToClipboardButton">
-                        <span class="mr-2">Copy to clipboard</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                            <path d="M7.5 3.375c0-1.036.84-1.875 1.875-1.875h.375a3.75 3.75 0 013.75 3.75v1.875C13.5 8.161 14.34 9 15.375 9h1.875A3.75 3.75 0 0121 12.75v3.375C21 17.16 20.16 18 19.125 18h-9.75A1.875 1.875 0 017.5 16.125V3.375z" />
-                            <path d="M15 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0017.25 7.5h-1.875A.375.375 0 0115 7.125V5.25zM4.875 6H6v10.125A3.375 3.375 0 009.375 19.5H16.5v1.125c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V7.875C3 6.839 3.84 6 4.875 6z" />
-                        </svg>
-                    </button>
-                    <div class="hidden border-light text-body-color absolute top-full left-1/2 z-20 mt-3 -translate-x-1/2 whitespace-nowrap rounded-lg border bg-gray-100 py-[6px] px-4 text-sm font-semibold" id="copiedMessage">
-                        <span class="border-light absolute -top-1 left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm border-t border-l bg-gray-100" ></span>
-                        Copied to clipboard!
-                    </div>
-                </div>
-            </div>
+  <head>
+    <title>rizzMe</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../assets/favicon.ico"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="../scripts/script.js"></script>
+  </head>
+  <body class="h-full bg-slate-900">
+    <div
+      class="min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 max-w-[90%] mx-auto"
+    >
+      <div>
+        <!-- make a section to save the liked quotes -->
+        <h1
+          class="text-2xl font-semibold text-slate-100 mb-4 sm:mb-8 text-center"
+        >
+          Saved Rizzes by Certified Rizzler
+        </h1>
+        <div
+          class="bg-slate-800 rounded-lg p-4 mb-4 max-w-md w-full sm:w-auto max-h-[300px] overflow-y-scroll"
+        >
+          <div class="mt-4" id="savedQuotes">
+            <!-- saved quotes will go here -->
+          </div>
         </div>
-    </body>
+      </div>
+
+      <div
+        class="bg-slate-800 rounded-lg p-4 mb-4 max-w-md w-full sm:w-auto mt-5"
+      >
+        <div class="relative">
+          <div
+            class="absolute -right-4 -top-12 hover:rotate-[-8deg] transition group cursor-pointer"
+            "
+            id="copiedMessage"
+          >
+            <svg
+              class="h-8 w-8 stroke-slate-400 transition group-hover:rotate-[-4deg] group-hover:stroke-slate-600"
+              fill="none"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M12.9975 10.7499L11.7475 10.7499C10.6429 10.7499 9.74747 11.6453 9.74747 12.7499L9.74747 21.2499C9.74747 22.3544 10.6429 23.2499 11.7475 23.2499L20.2475 23.2499C21.352 23.2499 22.2475 22.3544 22.2475 21.2499L22.2475 12.7499C22.2475 11.6453 21.352 10.7499 20.2475 10.7499L18.9975 10.7499"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path><path
+                d="M17.9975 12.2499L13.9975 12.2499C13.4452 12.2499 12.9975 11.8022 12.9975 11.2499L12.9975 9.74988C12.9975 9.19759 13.4452 8.74988 13.9975 8.74988L17.9975 8.74988C18.5498 8.74988 18.9975 9.19759 18.9975 9.74988L18.9975 11.2499C18.9975 11.8022 18.5498 12.2499 17.9975 12.2499Z"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path><path
+                d="M13.7475 16.2499L18.2475 16.2499"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path><path
+                d="M13.7475 19.2499L18.2475 19.2499"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path><g class="opacity-0"
+                ><path
+                  d="M15.9975 5.99988L15.9975 3.99988"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path><path
+                  d="M19.9975 5.99988L20.9975 4.99988"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path><path
+                  d="M11.9975 5.99988L10.9975 4.99988"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path></g
+              ></svg
+            >
+          </div>
+          <div>
+            <p class="text-gray-50" id="rizzContent"><%= rizz %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center flex-col sm:flex-row">
+        <button
+          class="flex flex-shrink-0 rounded-lg bg-sky-300 py-3 px-4 text-sm font-semibold text-slate-900 hover:bg-sky-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/50 active:bg-sky-500 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2"
+          id="saveButton"
+        >
+          Save
+        </button>
+
+        <button
+          class="flex flex-shrink-0 rounded-lg bg-sky-300 py-3 px-4 text-sm font-semibold text-slate-900 hover:bg-sky-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/50 active:bg-sky-500 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2"
+          id="generateButton"
+        >
+          Generate new
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="w-5 h-5 inline-block"
+          >
+            <path
+              d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z"
+            ></path>
+          </svg>
+        </button>
+
+        <div class="relative inline-block">
+          <button
+            class="flex flex-shrink-0 rounded-lg bg-slate-800 py-3 px-4 text-sm font-semibold text-white hover:bg-slate-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 active:text-slate-400 w-full sm:w-auto flex items-center"
+            id="copyToClipboardButton"
+          >
+            <span class="mr-2">Copy to clipboard</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                d="M7.5 3.375c0-1.036.84-1.875 1.875-1.875h.375a3.75 3.75 0 013.75 3.75v1.875C13.5 8.161 14.34 9 15.375 9h1.875A3.75 3.75 0 0121 12.75v3.375C21 17.16 20.16 18 19.125 18h-9.75A1.875 1.875 0 017.5 16.125V3.375z"
+              ></path>
+              <path
+                d="M15 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0017.25 7.5h-1.875A.375.375 0 0115 7.125V5.25zM4.875 6H6v10.125A3.375 3.375 0 009.375 19.5H16.5v1.125c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V7.875C3 6.839 3.84 6 4.875 6z"
+              ></path>
+            </svg>
+          </button>
+
+          <div
+            class="hidden border-light text-body-color absolute top-full left-1/2 z-20 mt-3 -translate-x-1/2 whitespace-nowrap rounded-lg border bg-gray-100 py-[6px] px-4 text-sm font-semibold"
+            id="copiedMessage"
+          >
+            <span
+              class="border-light absolute -top-1 left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm border-t border-l bg-gray-100"
+            ></span>
+             Copied to clipboard!
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
